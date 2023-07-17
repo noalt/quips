@@ -1,5 +1,5 @@
 ﻿# -------------------------------------------------------------------------------------------------------------------
-# quips 0.1   |   https://github.com/noalt/quips
+# quips 0.2   |   https://github.com/noalt/quips
 # -------------------------------------------------------------------------------------------------------------------
 Set-StrictMode -Version Latest
 
@@ -75,7 +75,7 @@ function Build-QuipsModule {
         [ValidateScript({ Test-Path -Path $_ -PathType Container }, ErrorMessage = 'ScriptsPath is not a valid directory.')]
         [string]$ScriptsPath,
 
-        [ValidateScript({ -not $_.ToLowerInvariant().Contains('quips.psm1') }, ErrorMessage = 'Name cannot contain \"quips.psm1\".')]
+        [ValidateScript({ $_.ToLowerInvariant() -ne 'quips.psm1' }, ErrorMessage = '"quips.psm1" is not a valid name.')]
         [string]$Name,
 
         [switch]$StrictMode
@@ -180,8 +180,7 @@ function WriteModuleFile([ScriptRepository]$ScriptRepository) {
     $exposeAliases = $ScriptRepository.GetAliases() -join "', '"
     $exposeFunctions = $ScriptRepository.GetFunctions() -join "', '"
     $output += "Export-ModuleMember ```n    -Alias '$exposeAliases' ```n    -Function '$exposeFunctions'"
-    $outputDirectory = (Join-Path -Path "$PSScriptRoot" -ChildPath "modules")
-    $output | Out-File -FilePath (Join-Path -Path "$outputDirectory" -ChildPath "$Name") -Encoding utf8BOM
+    $output | Out-File -FilePath (Join-Path -Path "$PSScriptRoot" -ChildPath "$Name") -Encoding utf8BOM
 }
 
 $WriteQuipsBegin = @'
