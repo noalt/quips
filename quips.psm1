@@ -1,5 +1,5 @@
 ﻿# -------------------------------------------------------------------------------------------------------------------
-# quips 0.3   |   https://github.com/noalt/quips
+# quips 0.4   |   https://github.com/noalt/quips
 # -------------------------------------------------------------------------------------------------------------------
 Set-StrictMode -Version Latest
 
@@ -107,6 +107,9 @@ function InitializeScriptRepository([string]$Path) {
             $name = "{0}-{1}_{2}" -f $matches["Verb"], $matches["Action"], $matches["Variant"]
             $script = [Script]::new($file, $name, $matches["Verb"], $matches["Action"], $matches["Variant"])
             $output.Add($script)
+        }
+        elseif ($file.Name -match "(?<Verb>\w+)-(?<Action>\w+)_(?<VersionOrVariant>\w+).Tests.ps1") {
+            # Pester Test Script
         }
         else {
             Write-Warning ("Script File `"{0}`" does not match any known patterns." -f $file.FullName)
