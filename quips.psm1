@@ -1,5 +1,5 @@
 ﻿# -------------------------------------------------------------------------------------------------------------------
-# quips 0.2   |   https://github.com/noalt/quips
+# quips 0.3   |   https://github.com/noalt/quips
 # -------------------------------------------------------------------------------------------------------------------
 Set-StrictMode -Version Latest
 
@@ -257,10 +257,10 @@ function Write-QuipsProcess {
         $commonOutput += $commonParameters[$key]
     }
 
-    $indent = '           '
+    $indent = '         '
     if ($normalParameters.Length -gt 0) {
         $functionSplat = "$($Function.Replace('-','').Replace('_',''))Splat"
-        $normalSplat = "`$$functionSplat = @{`n  $indent$($normalParameters -join "`n  $indent")`n$indent}`n$indent"
+        $normalSplat = "`$$functionSplat = @{`n$indent  $($normalParameters -join "`n  $indent")`n$indent}`n$indent"
         $functionSplatVariable = " @$functionSplat"
     }
     else {
@@ -268,10 +268,10 @@ function Write-QuipsProcess {
         $functionSplatVariable = ''
     }
     if (@($commonOutput | Where-Object { $_ -ne $null }).Count -gt 0) {
-        Write-Verbose -Message ("  {0}{1}{2} ```n  $indent{3}" -f $normalSplat, $Function, $functionSplatVariable, ($commonOutput -join ''))
+        Write-Verbose -Message ("{0}{1}{2} {3}" -f $normalSplat, $Function, $functionSplatVariable, ($commonOutput -join ''))
     }
     else {
-        Write-Verbose -Message ("  {0}{1}{2}" -f $normalSplat, $Function, $functionSplatVariable)
+        Write-Verbose -Message ("{0}{1}{2}" -f $normalSplat, $Function, $functionSplatVariable)
     }
 }
 '@
